@@ -1,19 +1,19 @@
 <?php
 $pdo = require_once "assets/php/connect.php";
 
-if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-    $userId = $_POST['user_id'];
-    $productName = $_POST['product_name'];
-    $quantity = $_POST['quantity'];
-    $price = $_POST['price'];
+function input_product_data($pdo) {
+    if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+        $product_name = $_POST['product_name'];
+        $stock = $_POST['stock'];
+        $price = $_POST['price'];
 
-    $sql = "INSERT INTO purchases (user_id, product_id, quantity) VALUES (:user_id, :product_id, :quantity)";
-    $stmt = $pdo -> prepare($sql);
-    $stmt->execute([
-        ':product_name' => $user_id,
-        ':quantity' => $product_id,
-        ':price' => $quantity
-    ]);
-
-    echo "purchase registered successfully!";
+        $sql = "INSERT INTO product (product_name, stock, price) VALUES (:product_name, :stock, :price)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':product_name' => $product_name,
+            ':quantity' => $stock,
+            ':price' => $price
+        ]);
+    }
 }
+echo input_product_data($pdo);
