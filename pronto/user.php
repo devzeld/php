@@ -1,19 +1,38 @@
+<form action="" method="POST">
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required />
+
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username" required />
+
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" />
+
+  <label for="surname">Surname:</label>
+  <input type="text" id="surname" name="surname" />
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required />
+
+  <button type="submit">Register User</button>
+</form>
+
 <?php
 $pdo = require_once "assets/php/connect.php";
 
-function input_user_data($pdo) {
-    if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-        $username = $_POST['username'];
-        $name = $_POST['name'];
-        $surname = $_POST['surname'];
+if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+    $username = $_POST['username'];
+    $name = $_POST['name'];
+    $surname = $_POST['surname'];
+    $password = $_POST['password'];
 
-        $sql = "INSERT INTO users (username, name, surname) VALUES (:username, :name, :surname)";
-        $stmt = $pdo -> prepare($sql);
-        $stmt->execute([
-            ':username' => $username,
-            ':name' => $name,
-            ':surname' => $surname
-        ]);
-    }
+    $sql = "INSERT INTO users (username, name, surname, password, create_time) VALUES (:username, :name, :surname, :password, NOW())";
+    $stmt = $pdo -> prepare($sql);
+    $stmt->execute([
+        ':username' => $username,
+        ':name' => $name,
+        ':surname' => $surname,
+        ':password' => $password
+    ]);
 }
-echo input_user_data($pdo);
+?>

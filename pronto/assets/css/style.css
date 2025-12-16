@@ -1,0 +1,19 @@
+body {
+  background-color: #1d1d1d;
+  width: 50%;
+  margin: 5% auto;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+form label {
+  color: white;
+}
+
+form input {
+  display: flex;
+}
