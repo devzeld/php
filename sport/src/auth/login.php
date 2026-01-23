@@ -1,15 +1,19 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="it">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../style/global.css">
+    <link rel="stylesheet" href="../style/global.css">
     <title>Login</title>
 </head>
 
 <body>
-    <form action="../../../api/auth/login.php" method="POST">
+    <form action="../../api/auth/login.php" method="POST">
         <h2>Login</h2>
 
         <label for="email">Email:</label>
@@ -21,7 +25,7 @@
         <button type="submit">Accedi</button>
 
         <div class="link-container">
-            <a href="../register/register.html">Non hai un account? Registrati</a>
+            <a href="./register.php">Non hai un account? Registrati</a>
         </div>
     </form>
 </body>

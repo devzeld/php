@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$data['email']]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$user || !password_verify($data['password'], $user['password'])) {
+        if ($user || !password_verify($data['password'], $user['password'])) {
             $_SESSION['id'] = $rows[0]['id'];
             header('Location:../../src/index.php');
             exit;
