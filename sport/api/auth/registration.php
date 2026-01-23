@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
                 $hashed_password
             ]);
 
-            header("Location: ../../src/index.php");
+            header("Location: ../../src/auth/login.php");
         }
     } catch (PDOException $e) {
         echo "Error: " . $e;
