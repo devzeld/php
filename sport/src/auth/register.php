@@ -31,7 +31,12 @@ session_start();
         <input type="text" id="professione" name="professione">
 
         <label for="tipo_socio">Tipo socio:</label>
-        <input type="text" id="tipo_socio" name="tipo_socio">
+
+        <select name="tipo_socio" id="tipo_socio">
+            <option value="atleta">Atleta</option>
+            <option value="frequentatore">Frequentatore</option>
+            <option value="socio_onorario">Socio Onorario</option>
+        </select>
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email">
