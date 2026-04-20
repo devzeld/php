@@ -1,51 +1,35 @@
 <?php
-session_start();
-?>
+require_once __DIR__ . '/../../config/connect.php';
 
-<!DOCTYPE html>
-<html lang="it">
+if ($_SERVER["REQUEST_METHOD"] == 'POST') {
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style/global.css">
-    <title>Register</title>
-</head>
+    if (!isset($_POST['email']) || !isset($_POST['password'])) {
+        echo 'Email, username and password are required';
+        exit;
+    }
 
-<body>
-    <form action="../../api/auth/registration.php" method="POST">
-        <h2>Registrati</h2>
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome">
+    try {
+        $stmt = $pdo->prepare("SELECT email FROM soci WHERE email = ?");
+        $stmt->execute([$_POST['email']]);
+        $socio = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        <label for="cognome">Cognome:</label>
-        <input type="text" id="cognome" name="cognome">
+        if (!$socio) {
+            $stmt = $pdo->prepare("INSERT INTO soci (nome, cognome, indirizzo, data_nascita, professione, tipo_socio, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $hashed_password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            $stmt->execute([
+                $_POST['nome'],
+                $_POST['cognome'],
+                $_POST['indirizzo'],
+                $_POST['data_nascita'],
+                $_POST['professione'],
+                $_POST['tipo_socio'],
+                $_POST['email'],
+                $hashed_password
+            ]);
 
-        <label for="indirizzo">Indirizzo:</label>
-        <input type="text" id="indirizzo" name="indirizzo">
-
-        <label for="data_nascita">Data di nascita:</label>
-        <input type="date" id="data_nascita" name="data_nascita">
-
-        <label for="professione">Professione:</label>
-        <input type="text" id="professione" name="professione">
-
-        <label for="tipo_socio">Tipo socio:</label>
-
-        <select name="tipo_socio" id="tipo_socio">
-            <option value="atleta">Atleta</option>
-            <option value="frequentatore">Frequentatore</option>
-            <option value="socio_onorario">Socio Onorario</option>
-        </select>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email">
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
-
-        <button type="submit">Invia dati</button>
-    </form>
-</body>
-
-</html>
+            header("Location: ../../src/auth/login.php");
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e;
+    }
+}
